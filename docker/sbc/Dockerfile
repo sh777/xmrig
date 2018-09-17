@@ -1,7 +1,7 @@
 FROM arm64v8/ubuntu:xenial
 
-RUN apt-get update && \
-    apt-get upgrade
+RUN apt-get -y update && \
+    apt-get -y upgrade
 
 RUN apt-get install -y git build-essential cmake make libuv1-dev libmicrohttpd-dev gcc g++ \
         automake autoconf pkg-config libcurl4-openssl-dev libjansson-dev libssl-dev libgmp-dev 
