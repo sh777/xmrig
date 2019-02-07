@@ -21,37 +21,26 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-#include <string.h>
-
-
-#include "Cpu.h"
+#ifndef XMRIG_CPU_H
+#define XMRIG_CPU_H
 
 
-char Cpu::m_brand[64]      = { 0 };
-int Cpu::m_flags           = 0;
-int Cpu::m_l2_cache        = 0;
-int Cpu::m_l3_cache        = 0;
-int Cpu::m_sockets         = 1;
-int Cpu::m_totalCores      = 0;
-size_t Cpu::m_totalThreads = 0;
+#include "common/interfaces/ICpuInfo.h"
 
 
-size_t Cpu::optimalThreadsCount(size_t size, int maxCpuUsage)
+namespace xmrig {
+
+
+class Cpu
 {
-    return m_totalThreads;
-}
+public:
+    static ICpuInfo *info();
+    static void init();
+    static void release();
+};
 
 
-void Cpu::initCommon()
-{
-    memcpy(m_brand, "Unknown", 7);
+} /* namespace xmrig */
 
-#   if defined (__arm64__) || defined (__aarch64__)
-    m_flags |= X86_64;
-#   endif
 
-#   if __ARM_FEATURE_CRYPTO
-    m_flags |= AES;
-#   endif
-}
+#endif /* XMRIG_CPU_H */

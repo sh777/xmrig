@@ -29,11 +29,11 @@
 #include "api/Api.h"
 #include "App.h"
 #include "common/Console.h"
+#include "common/cpu/Cpu.h"
 #include "common/log/Log.h"
 #include "common/Platform.h"
 #include "core/Config.h"
 #include "core/Controller.h"
-#include "Cpu.h"
 #include "crypto/CryptoNight.h"
 #include "Mem.h"
 #include "net/Network.h"
@@ -87,6 +87,10 @@ App::~App()
 
 int App::exec()
 {
+    if (m_controller->isDone()) {
+        return 0;
+    }
+
     if (!m_controller->isReady()) {
         return 2;
     }

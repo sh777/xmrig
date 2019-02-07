@@ -26,6 +26,7 @@
 
 
 #include "common/config/ConfigLoader.h"
+#include "common/cpu/Cpu.h"
 #include "common/interfaces/IControllerListener.h"
 #include "common/log/ConsoleLog.h"
 #include "common/log/FileLog.h"
@@ -33,7 +34,6 @@
 #include "common/Platform.h"
 #include "core/Config.h"
 #include "core/Controller.h"
-#include "Cpu.h"
 #include "net/Network.h"
 
 
@@ -75,6 +75,12 @@ xmrig::Controller::~Controller()
     ConfigLoader::release();
 
     delete d_ptr;
+}
+
+
+bool xmrig::Controller::isDone() const
+{
+    return ConfigLoader::isDone();
 }
 
 

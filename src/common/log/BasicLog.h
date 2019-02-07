@@ -21,46 +21,35 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __CPU_H__
-#define __CPU_H__
+#ifndef __BASICLOG_H__
+#define __BASICLOG_H__
 
 
-#include <stdint.h>
+#include <uv.h>
 
 
-class Cpu
+#include "common/interfaces/ILogBackend.h"
+
+
+namespace xmrig {
+    class Controller;
+}
+
+
+class BasicLog : public ILogBackend
 {
 public:
-    enum Flags {
-        X86_64 = 1,
-        AES    = 2,
-        BMI2   = 4
-    };
+    BasicLog();
 
-    static size_t optimalThreadsCount(size_t size, int maxCpuUsage);
-    static void init();
-
-    static inline bool hasAES()       { return (m_flags & AES) != 0; }
-    static inline bool isX64()        { return (m_flags & X86_64) != 0; }
-    static inline const char *brand() { return m_brand; }
-    static inline int cores()         { return m_totalCores; }
-    static inline int l2()            { return m_l2_cache; }
-    static inline int l3()            { return m_l3_cache; }
-    static inline int sockets()       { return m_sockets; }
-    static inline int threads()       { return m_totalThreads; }
+    void message(Level level, const char *fmt, va_list args) override;
+    void text(const char *fmt, va_list args) override;
 
 private:
-    static void initCommon();
+    bool isWritable() const;
+    void print(va_list args);
 
-    static bool m_l2_exclusive;
-    static char m_brand[64];
-    static int m_flags;
-    static int m_l2_cache;
-    static int m_l3_cache;
-    static int m_sockets;
-    static int m_totalCores;
-    static size_t m_totalThreads;
+    char m_buf[kBufferSize];
+    char m_fmt[256];
 };
 
-
-#endif /* __CPU_H__ */
+#endif /* __BASICLOG_H__ */

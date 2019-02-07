@@ -22,33 +22,40 @@
  */
 
 
-#ifdef __FreeBSD__
-#   include <sys/types.h>
-#   include <sys/param.h>
-#   include <sys/cpuset.h>
-#   include <pthread_np.h>
+#include <assert.h>
+
+
+#include "common/cpu/Cpu.h"
+
+
+#ifndef XMRIG_NO_LIBCPUID
+#   include "core/cpu/AdvancedCpuInfo.h"
 #endif
 
 
-#include <pthread.h>
-#include <sched.h>
-#include <unistd.h>
-#include <string.h>
+static xmrig::ICpuInfo *cpuInfo = nullptr;
 
 
-#include "Cpu.h"
-
-
-#ifdef __FreeBSD__
-typedef cpuset_t cpu_set_t;
-#endif
-
-
-void Cpu::init()
+xmrig::ICpuInfo *xmrig::Cpu::info()
 {
-#   ifdef XMRIG_NO_LIBCPUID
-    m_totalThreads = sysconf(_SC_NPROCESSORS_CONF);
-#   endif
+    assert(cpuInfo != nullptr);
 
-    initCommon();
+    return cpuInfo;
+}
+
+
+void xmrig::Cpu::init()
+{
+    assert(cpuInfo == nullptr);
+
+    cpuInfo = new AdvancedCpuInfo();
+}
+
+
+void xmrig::Cpu::release()
+{
+    assert(cpuInfo != nullptr);
+
+    delete cpuInfo;
+    cpuInfo = nullptr;
 }
