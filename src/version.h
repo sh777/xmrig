@@ -5,8 +5,8 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018-2019 SChernykh   <https://github.com/SChernykh>
- * Copyright 2016-2019 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018-2020 SChernykh   <https://github.com/SChernykh>
+ * Copyright 2016-2020 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -27,19 +27,21 @@
 
 #define APP_ID        "xmrig"
 #define APP_NAME      "XMRig"
-#define APP_DESC      "XMRig CPU miner"
-#define APP_VERSION   "2.14.1"
+#define APP_DESC      "XMRig miner"
+#define APP_VERSION   "6.3.5"
 #define APP_DOMAIN    "xmrig.com"
 #define APP_SITE      "www.xmrig.com"
-#define APP_COPYRIGHT "Copyright (C) 2016-2019 xmrig.com"
-#define APP_KIND      "cpu"
+#define APP_COPYRIGHT "Copyright (C) 2016-2020 xmrig.com"
+#define APP_KIND      "miner"
 
-#define APP_VER_MAJOR  2
-#define APP_VER_MINOR  14
-#define APP_VER_PATCH  1
+#define APP_VER_MAJOR  6
+#define APP_VER_MINOR  3
+#define APP_VER_PATCH  5
 
 #ifdef _MSC_VER
-#   if (_MSC_VER >= 1910)
+#   if (_MSC_VER >= 1920)
+#       define MSVC_VERSION 2019
+#   elif (_MSC_VER >= 1910 && _MSC_VER < 1920)
 #       define MSVC_VERSION 2017
 #   elif _MSC_VER == 1900
 #       define MSVC_VERSION 2015
