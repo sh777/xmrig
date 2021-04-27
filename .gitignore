@@ -1,8 +1,6 @@
 /build
+scripts/build
+scripts/deps
 /CMakeLists.txt.user
-
-.DS_Store
-.vscode
 /.idea
 /src/backend/opencl/cl/cn/cryptonight_gen.cl
-

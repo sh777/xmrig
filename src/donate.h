@@ -34,7 +34,7 @@
  * Example of how it works for the setting of 1%:
  * You miner will mine into your usual pool for random time (in range from 49.5 to 148.5 minutes),
  * then switch to the developer's pool for 1 minute, then switch again to your pool for 99 minutes
- * and then switch agaiin to developer's pool for 1 minute, these rounds will continue until miner working.
+ * and then switch again to developer's pool for 1 minute, these rounds will continue until miner working.
  *
  * Randomised only first round, to prevent waves on the donation pool.
  *
@@ -44,13 +44,8 @@
  * XMR: 48edfHu7V9Z84YzzMa6fUueoELZ9ZRXq9VetWzYGzKt52XU5xvqgzYnDK9URnRoJMk1j8nLwEVsaSWJ4fhdUyZijBGUicoD
  * BTC: 1P7ujsXeX7GxQwHNnJsRMgAdNkFZmNVqJT
  */
-<<<<<<< HEAD
 constexpr const int kDefaultDonateLevel = 0;
 constexpr const int kMinimumDonateLevel = 0;
-=======
-constexpr const int kDefaultDonateLevel = 1;
-constexpr const int kMinimumDonateLevel = 1;
->>>>>>> ec13337228a6a48c44b8ff13724b18172f14f167
 
 
 #endif /* XMRIG_DONATE_H */

@@ -6,8 +6,8 @@
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
- * Copyright 2018-2020 SChernykh   <https://github.com/SChernykh>
- * Copyright 2016-2020 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018-2021 SChernykh   <https://github.com/SChernykh>
+ * Copyright 2016-2021 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -105,8 +105,6 @@ static AlgoName const algorithm_names[] = {
     { "RandomX",                   "rx",               Algorithm::RX_0            },
     { "randomx/wow",               "rx/wow",           Algorithm::RX_WOW          },
     { "RandomWOW",                 nullptr,            Algorithm::RX_WOW          },
-    { "randomx/loki",              "rx/loki",          Algorithm::RX_LOKI         },
-    { "RandomXL",                  nullptr,            Algorithm::RX_LOKI         },
     { "randomx/arq",               "rx/arq",           Algorithm::RX_ARQ          },
     { "RandomARQ",                 nullptr,            Algorithm::RX_ARQ          },
     { "randomx/sfx",               "rx/sfx",           Algorithm::RX_SFX          },
@@ -117,6 +115,8 @@ static AlgoName const algorithm_names[] = {
 #   ifdef XMRIG_ALGO_ARGON2
     { "argon2/chukwa",             nullptr,            Algorithm::AR2_CHUKWA      },
     { "chukwa",                    nullptr,            Algorithm::AR2_CHUKWA      },
+    { "argon2/chukwav2",           nullptr,            Algorithm::AR2_CHUKWA_V2   },
+    { "chukwav2",                  nullptr,            Algorithm::AR2_CHUKWA_V2   },
     { "argon2/wrkz",               nullptr,            Algorithm::AR2_WRKZ        },
 #   endif
 #   ifdef XMRIG_ALGO_ASTROBWT
@@ -129,6 +129,11 @@ static AlgoName const algorithm_names[] = {
 #   endif
     { "cryptonight/ccx",           "cn/ccx",           Algorithm::CN_CCX          },
     { "cryptonight/conceal",       "cn/conceal",       Algorithm::CN_CCX          },
+#   ifdef XMRIG_ALGO_CN_FEMTO
+    { "cryptonight/upx2",          "cn/upx2",          Algorithm::CN_UPX2         },
+    { "cn-extremelite/upx2",       nullptr,            Algorithm::CN_UPX2         },
+    { "cryptonight-upx/2",         nullptr,            Algorithm::CN_UPX2         },
+#   endif
 };
 
 
@@ -160,7 +165,6 @@ size_t xmrig::Algorithm::l2() const
 #   ifdef XMRIG_ALGO_RANDOMX
     switch (m_id) {
     case RX_0:
-    case RX_LOKI:
     case RX_SFX:
         return 0x40000;
 
@@ -200,6 +204,9 @@ size_t xmrig::Algorithm::l3() const
     case CN_PICO:
         return oneMiB / 4;
 
+    case CN_FEMTO:
+        return oneMiB / 8;
+
     default:
         break;
     }
@@ -208,7 +215,6 @@ size_t xmrig::Algorithm::l3() const
     if (f == RANDOM_X) {
         switch (m_id) {
         case RX_0:
-        case RX_LOKI:
         case RX_SFX:
             return oneMiB * 2;
 
@@ -230,6 +236,9 @@ size_t xmrig::Algorithm::l3() const
         switch (m_id) {
         case AR2_CHUKWA:
             return oneMiB / 2;
+
+        case AR2_CHUKWA_V2:
+            return oneMiB;
 
         case AR2_WRKZ:
             return oneMiB / 4;
@@ -328,10 +337,14 @@ xmrig::Algorithm::Family xmrig::Algorithm::family(Id id)
         return CN_PICO;
 #   endif
 
+#   ifdef XMRIG_ALGO_CN_FEMTO
+    case CN_UPX2:
+        return CN_FEMTO;
+#   endif
+
 #   ifdef XMRIG_ALGO_RANDOMX
     case RX_0:
     case RX_WOW:
-    case RX_LOKI:
     case RX_ARQ:
     case RX_SFX:
     case RX_KEVA:
@@ -340,6 +353,7 @@ xmrig::Algorithm::Family xmrig::Algorithm::family(Id id)
 
 #   ifdef XMRIG_ALGO_ARGON2
     case AR2_CHUKWA:
+    case AR2_CHUKWA_V2:
     case AR2_WRKZ:
         return ARGON2;
 #   endif
